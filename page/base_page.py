@@ -13,8 +13,24 @@ class BasePage(object):
         print("location=", location)
         return self.driver.find_element(location[0], location[1])
 
+    def find_element_by_up_swipe_page(self, location):
+        print("find_element_by_up_swipe_page location=", location)
+        while True:
+            try:
+                element = self.find_element(location)
+                return element
+            except Exception:
+                print("not find element in current screen!")
+                self.swipe_up()
+
     def find_element_by_id(self, id_value):
         return self.driver.find_element_by_id(id_value)
+
+    def swipe_up(self):
+        size = self.driver.get_window_size()
+        width = size["width"]
+        height = size["height"]
+        self.driver.swipe(width * 0.5, height * 0.8, width * 0.5, height * 0.2, 3000)
 
 
 class BaseHandle(object):

@@ -15,12 +15,17 @@ class MinePage(BasePage):
         self.login_btn = (By.ID, "com.tpshop.malls:id/nickname_txtv")
         # 设置按钮
         self.setting_btn = (By.ID, "com.tpshop.malls:id/setting_btn")
+        # 收货地址
+        self.address = (By.XPATH, "//*[@text='收货地址']")
 
     def find_login_btn(self):
         return self.find_element(self.login_btn)
 
     def find_setting_btn(self):
         return self.find_element(self.setting_btn)
+
+    def find_address(self):
+        return self.find_element_by_up_swipe_page(self.address)
 
 
 class MineHandle(BaseHandle):
@@ -39,6 +44,9 @@ class MineHandle(BaseHandle):
 
     def get_nickname(self):
         return self.mine_page.find_login_btn().text
+
+    def click_address(self):
+        self.mine_page.find_address().click()
 
 
 class MineProxy:
@@ -61,3 +69,6 @@ class MineProxy:
             return nickname != "登录/注册"
         except:
             return False
+
+    def to_address_page(self):
+        self.mine_handle.click_address()

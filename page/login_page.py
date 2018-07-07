@@ -53,6 +53,13 @@ class LoginHandle(BaseHandle):
     def click_back_btn(self):
         self.login_page.find_back_btn().click()
 
+    def exist_login_btn(self):
+        try:
+            element = self.login_page.find_login_btn()
+            return element is not None
+        except Exception:
+            return False
+
 
 class LoginProxy:
     """
@@ -69,3 +76,6 @@ class LoginProxy:
 
     def back_to_mine_page(self):
         self.login_handle.click_back_btn()
+
+    def is_login_page(self):
+        return self.login_handle.exist_login_btn()

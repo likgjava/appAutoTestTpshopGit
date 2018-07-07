@@ -1,9 +1,5 @@
 
 test_login:
-  login_001:
-    username: "13041092162"
-    password: "tpshop12345678"
-    toast: "登录成功"
   login_002:
     username: "13099999999"
     password: "tpshop12345678"
@@ -12,6 +8,10 @@ test_login:
     username: "13041092162"
     password: "123"
     toast: "密码错误"
+  login_001:
+    username: "13041092162"
+    password: "tpshop12345678"
+    toast: "登录成功"
 
 
 

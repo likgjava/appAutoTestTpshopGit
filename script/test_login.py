@@ -43,6 +43,7 @@ def build_login_data():
     return data_list
 
 
+@pytest.mark.run(order=1)
 class TestLogin:
 
     @classmethod
@@ -53,30 +54,33 @@ class TestLogin:
         cls.login_proxy = LoginProxy()
         cls.setting_proxy = SettingProxy()
 
-    @classmethod
-    def teardown_class(cls):
-        print('teardown_class')
-        DriverUtil.quit_driver()
+    # @classmethod
+    # def teardown_class(cls):
+    #     print('teardown_class')
+    #     DriverUtil.quit_driver()
 
     def setup(self):
         # 进入‘我的’页面
         self.main_proxy.to_mine_page()
 
-        # 进入‘登录’页面
-        self.mine_proxy.to_login_page()
-
-    def teardown(self):
-        print('teardown')
         # 如果是已登录状态，则要先退出
         is_login = self.mine_proxy.is_login()
         print("is_login=", is_login)
         if is_login:
             self.mine_proxy.to_setting_page()
             self.setting_proxy.logout()
-        else:
+
+        # 进入‘登录’页面
+        self.mine_proxy.to_login_page()
+
+    def teardown(self):
+        print('teardown')
+        # 如果是登录页面，则返回到‘我的’页面
+        is_login_page = self.login_proxy.is_login_page()
+        if is_login_page:
             self.login_proxy.back_to_mine_page()
 
-    @pytest.allure.step("登录功能")
+    @allure.step("登录功能")
     @pytest.mark.parametrize("username,password,toast", build_login_data())
     def test_login(self, username, password, toast):
         print("test_login username={} password={} toast={}".format(username, password, toast))
@@ -85,8 +89,7 @@ class TestLogin:
         self.login_proxy.login(username, password)
 
         # 截图
-        f = DriverUtil.get_driver().get_screenshot_as_png()
-        allure.attach("截图", f, allure.attach_type.PNG)
+        png = DriverUtil.get_driver().get_screenshot_as_png()
+        allure.attach("截图", png, allure.attach_type.PNG)
 
         assert utils.is_exist_toast(toast)
-
