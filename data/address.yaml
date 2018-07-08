@@ -1,11 +1,18 @@
 
-test_address:
-  address_001:
+test_add_address:
+  add_address_001:
     name: "张三"
     mobile: "13912345678"
     province: "北京市"
     city: "市辖区"
     district: "朝阳区"
     town: "三里屯街道"
-    address: "SOHO1001"
+    address: "SOHO1002"
     toast: "添加成功"
+test_del_address:
+  del_address_001:
+    address: "北京市市辖区朝阳区三里屯街道SOHO1001"
+    toast: "删除成功"
+  del_address_002:
+    address: "北京市市辖区朝阳区三里屯街道SOHO1002"
+    toast: "删除成功"
